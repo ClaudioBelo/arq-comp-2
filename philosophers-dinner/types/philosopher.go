@@ -35,7 +35,7 @@ func (p *Philosopher) Eat() {
 
 func (p *Philosopher) Think() {
 	fmt.Printf("Philosopher %d is thiking...\n", p.Id)
-	time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
+	time.Sleep(time.Duration(rand.Intn(10)) * time.Second)
 }
 
 func (p *Philosopher) Exists() {
