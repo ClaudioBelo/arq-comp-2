@@ -1,28 +1,23 @@
 package types
 
-import "errors"
+import (
+	"sync"
+)
 
 type Fork struct {
-	Id     int
-	in_use bool
+	mu sync.Mutex
 }
 
-func NewFork(id int) *Fork {
+func NewFork() *Fork {
 	return &Fork{
-		Id:     id,
-		in_use: false,
+		mu: sync.Mutex{},
 	}
 }
 
-func (f *Fork) Take() error {
-	if !f.in_use {
-		f.in_use = true
-		return nil
-	} else {
-		return errors.New("Fork is already in use")
-	}
+func (f *Fork) Take() {
+	f.mu.Lock()
 }
 
 func (f *Fork) Put() {
-	f.in_use = false
+	f.mu.Unlock()
 }

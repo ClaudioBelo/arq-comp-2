@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 )
 
@@ -20,21 +21,26 @@ func NewPhilosopher(id int, left_fork, right_fork *Fork) *Philosopher {
 }
 
 func (p *Philosopher) Eat() {
-	fmt.Printf("Philosopher %d take left forks\n", p.Id)
+	fmt.Printf("Philosopher %d take left and right fork\n", p.Id)
 	p.left_fork.Take()
-	fmt.Printf("Philosopher %d take right forks\n", p.Id)
 	p.right_fork.Take()
 
 	fmt.Printf("Philosopher %d is eating...\n", p.Id)
-	time.Sleep(3 * time.Second)
+	time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
 
-	fmt.Printf("Philosopher %d put left forks\n", p.Id)
+	fmt.Printf("Philosopher %d put left and right fork\n", p.Id)
 	p.left_fork.Put()
-	fmt.Printf("Philosopher %d put right forks\n", p.Id)
 	p.right_fork.Put()
 }
 
 func (p *Philosopher) Think() {
 	fmt.Printf("Philosopher %d is thiking...\n", p.Id)
-	time.Sleep(5 * time.Second)
+	time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
+}
+
+func (p *Philosopher) Exists() {
+	for {
+		p.Think()
+		p.Eat()
+	}
 }
