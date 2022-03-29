@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"math/rand"
 	"sync"
 
 	"github.com/ClaudioBelo/arq-comp-2/philosophers-dinner/types"
@@ -15,24 +17,22 @@ func main() {
 
 func PhilosophersDinnerSync() {
 	for i := 0; i < 5; i++ {
-		forks[i] = types.NewFork()
+		forks[i] = types.NewFork(i)
 	}
 
 	for i := 0; i < 5; i++ {
 		philosophers[i] = types.NewPhilosopher(i, forks[i], forks[(i+1)%5])
 	}
-
 	for {
-		for i := 0; i < 5; i++ {
-			philosophers[i].Think()
-			philosophers[i].Eat()
+		if err := philosophers[rand.Intn(4)].Next(); err != nil {
+			fmt.Printf("%s", err)
 		}
 	}
 }
 
 func PhilosophersDinnerAsync() {
 	for i := 0; i < 5; i++ {
-		forks[i] = types.NewFork()
+		forks[i] = types.NewFork(i)
 	}
 
 	for i := 0; i < 5; i++ {

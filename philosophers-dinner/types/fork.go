@@ -1,23 +1,35 @@
 package types
 
 import (
+	"fmt"
 	"sync"
 )
 
 type Fork struct {
-	mu sync.Mutex
+	Id     int
+	mu     sync.Mutex
+	locked bool
 }
 
-func NewFork() *Fork {
+func NewFork(id int) *Fork {
 	return &Fork{
-		mu: sync.Mutex{},
+		Id:     id,
+		mu:     sync.Mutex{},
+		locked: false,
 	}
 }
 
-func (f *Fork) Take() {
+func (f *Fork) Take() error {
+	if f.locked {
+		return fmt.Errorf("Fork %d in use\n", f.Id)
+	}
+	f.locked = true
 	f.mu.Lock()
+
+	return nil
 }
 
 func (f *Fork) Put() {
+	f.locked = false
 	f.mu.Unlock()
 }
