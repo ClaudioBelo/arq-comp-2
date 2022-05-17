@@ -12,7 +12,7 @@ var forks = make([]*types.Fork, 5)
 var philosophers = make([]*types.Philosopher, 5)
 
 func main() {
-	PhilosophersDinnerSync()
+	PhilosophersDinnerAsync()
 }
 
 func PhilosophersDinnerSync() {
